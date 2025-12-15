@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Practice AWS data engineering questions organized into focused sets. Track your progress and prepare for certification exams.">
+    <meta name="keywords" content="AWS data engineering, practice questions, certification prep, data engineer training">
+    <title>DataEngineerPrep - Question Sets</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .welcome-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .welcome-box {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .welcome-box h1 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 32px;
+        }
+
+        .welcome-box p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .question-sets {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .question-sets h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .set-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .set-item {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .set-item:hover {
+            background: #e8e9eb;
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .set-item.completed {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .set-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .set-info {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .set-score {
+            font-size: 12px;
+            color: #28a745;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .user-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .user-info h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .user-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .admin-link {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .admin-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .admin-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-container">
+        <div class="welcome-box">
+            <div id="login-screen">
+                <h1>Welcome to AWS Data Engineering Quiz</h1>
+                <p>Test your knowledge with our comprehensive AWS Data Engineering practice questions.</p>
+
+                <div class="input-group">
+                    <input type="text" id="user-name" placeholder="Enter your name" autofocus>
+                </div>
+
+                <button class="btn-primary" id="start-btn" onclick="login()">Get Started</button>
+
+                <div class="admin-link">
+                    <a href="/admin">Admin Panel</a>
+                </div>
+            </div>
+
+            <div id="question-sets-screen">
+                <div class="user-info">
+                    <h2 id="welcome-message">Welcome back!</h2>
+                    <div class="user-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="total-attempts">0</div>
+                            <div class="stat-label">Attempts</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="best-score">0%</div>
+                            <div class="stat-label">Best Score</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-sets">
+                    <h3>Select a Question Set</h3>
+                    <div id="loading" class="loading">Loading question sets...</div>
+                    <div id="error-message" class="error-message" style="display: none;"></div>
+                    <div id="set-list" class="set-list"></div>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn-primary" style="flex: 1; background: #6c757d;" onclick="logout()">Logout</button>
+                    <a href="/admin" class="btn-primary" style="flex: 1; text-decoration: none; text-align: center; line-height: 50px;">Admin Panel</a>
+                </div>
+
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="/about" style="color: #667eea; text-decoration: none; font-size: 14px;">About DataEngineerPrep</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='landing.js') }}"></script>
+</body>
+</html>
