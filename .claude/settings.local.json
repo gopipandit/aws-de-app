@@ -1,7 +1,19 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python -m http.server 8000)"
+      "Bash(python -m http.server 8000)",
+      "Bash(python -m pip install Flask)",
+      "Bash(python migrate_data.py)",
+      "Bash(python app.py)",
+      "Bash(curl -s http://localhost:5000/)",
+      "Bash(pip install pymongo python-dotenv)",
+      "Bash(python migrate_to_mongodb.py)",
+      "Bash(curl -s http://localhost:5000/api/questions/sets)",
+      "Bash(curl -s http://localhost:5000/api/questions/set/1)",
+      "Bash(pip install bcrypt)",
+      "Bash(curl -s http://localhost:5000/about)",
+      "Bash(curl -s http://localhost:5000/quiz)",
+      "Bash(curl -s http://localhost:5000/admin)"
     ]
   }
 }
