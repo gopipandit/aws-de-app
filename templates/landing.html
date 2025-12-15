@@ -6,6 +6,7 @@
     <meta name="description" content="Practice AWS data engineering questions organized into focused sets. Track your progress and prepare for certification exams.">
     <meta name="keywords" content="AWS data engineering, practice questions, certification prep, data engineer training">
     <title>DataEngineerPrep - Question Sets</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='signature.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
         .welcome-container {
@@ -24,6 +25,14 @@
             width: 100%;
             padding: 40px;
             text-align: center;
+        }
+
+        .page-logo {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            margin: 0 auto 30px;
+            display: block;
         }
 
         .welcome-box h1 {
@@ -209,6 +218,8 @@
 <body>
     <div class="welcome-container">
         <div class="welcome-box">
+            <img src="{{ url_for('static', filename='dep_logo.png') }}" alt="DataEngineerPrep Logo" class="page-logo">
+
             <div id="login-screen">
                 <h1>Welcome to AWS Data Engineering Quiz</h1>
                 <p>Test your knowledge with our comprehensive AWS Data Engineering practice questions.</p>

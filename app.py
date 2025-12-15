@@ -35,6 +35,22 @@ users_collection = db['users']
 attempts_collection = db['attempts']
 
 @app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/login')
+def login_page():
+    if 'user_id' in session:
+        return redirect(url_for('landing'))
+    return render_template('auth.html')
+
+@app.route('/signup')
+def signup_page():
+    if 'user_id' in session:
+        return redirect(url_for('landing'))
+    return render_template('auth.html')
+
+@app.route('/auth')
 def auth_page():
     if 'user_id' in session:
         return redirect(url_for('landing'))
@@ -58,6 +74,18 @@ def admin():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/certification/aws-dea')
+def aws_dea_cert():
+    return render_template('aws_dea_cert.html')
+
+@app.route('/coding-practice')
+def coding_practice():
+    return render_template('coding_practice.html')
+
+@app.route('/interview-prep')
+def interview_prep():
+    return render_template('interview_prep.html')
 
 # Authentication Routes
 

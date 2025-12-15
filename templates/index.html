@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DataEngineerPrep - Your one-stop platform for data engineering certification preparation, coding practice, and interview preparation.">
+    <title>DataEngineerPrep - Home</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='signature.png') }}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+        }
+
+        .navbar-logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .navbar-logo span {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .navbar-item {
+            position: relative;
+        }
+
+        .navbar-link {
+            display: block;
+            padding: 25px 20px;
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .navbar-link:hover {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            min-width: 320px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .navbar-item:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item a {
+            color: #4a5568;
+            text-decoration: none;
+            display: block;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .dropdown-item a:hover {
+            color: #667eea;
+        }
+
+        .dropdown-item-desc {
+            font-size: 13px;
+            color: #718096;
+            margin-top: 5px;
+        }
+
+        /* Auth Buttons */
+        .navbar-auth {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn-login, .btn-signup {
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .btn-login {
+            color: #667eea;
+            background: transparent;
+            border-color: #667eea;
+        }
+
+        .btn-login:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-signup {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-btn {
+            padding: 18px 40px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .hero-btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .hero-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .hero-btn-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Features Section */
+        .features {
+            background: white;
+            padding: 80px 30px;
+        }
+
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 42px;
+            color: #1a202c;
+            margin-bottom: 50px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 40px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            color: #1a202c;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .feature-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .feature-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a202c;
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .footer p {
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <img src="{{ url_for('static', filename='dep_logo.png') }}" alt="DataEngineerPrep Logo">
+            </div>
+
+            <ul class="navbar-menu">
+                <li class="navbar-item">
+                    <a href="#" class="navbar-link">Data Engineering Certification</a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item">
+                            <a href="/certification/aws-dea">
+                                <strong>AWS Certified Data Engineer Associate</strong>
+                                <div class="dropdown-item-desc">DEA-C01 Exam Preparation</div>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="navbar-item">
+                    <a href="/coding-practice" class="navbar-link">Coding Practice</a>
+                </li>
+                <li class="navbar-item">
+                    <a href="/interview-prep" class="navbar-link">Interview Preparation</a>
+                </li>
+                <li class="navbar-item">
+                    <a href="/about" class="navbar-link">About</a>
+                </li>
+            </ul>
+
+            <div class="navbar-auth">
+                <a href="/login" class="btn-login">Login</a>
+                <a href="/signup" class="btn-signup">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Master Data Engineering</h1>
+        <p>Prepare for certifications, practice coding challenges, and ace your interviews. Your complete data engineering preparation platform.</p>
+        <div class="hero-buttons">
+            <a href="/certification/aws-dea" class="hero-btn hero-btn-primary">Start Certification Prep</a>
+            <a href="/coding-practice" class="hero-btn hero-btn-secondary">Explore Coding</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-container">
+            <h2>What We Offer</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Certification Preparation</h3>
+                    <p>Comprehensive practice questions for AWS Certified Data Engineer Associate (DEA-C01) and more certifications.</p>
+                    <a href="/certification/aws-dea" class="feature-link">Start Preparing →</a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3>Coding Practice</h3>
+                    <p>Hands-on coding challenges covering data structures, algorithms, SQL, and data engineering concepts.</p>
+                    <a href="/coding-practice" class="feature-link">Start Coding →</a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Interview Preparation</h3>
+                    <p>Real interview questions, system design scenarios, and behavioral interview guides for data engineering roles.</p>
+                    <a href="/interview-prep" class="feature-link">Prepare Now →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 DataEngineerPrep. All rights reserved.</p>
+    </footer>
+</body>
+</html>
