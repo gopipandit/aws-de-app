@@ -292,12 +292,24 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         }
 
+        /* Prevent copying/selection of questions */
+        .question-container * {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
         #question-text {
             font-size: 20px;
             color: #1a202c;
             margin-bottom: 30px;
             line-height: 1.7;
             font-weight: 600;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         #options-container {
@@ -319,6 +331,10 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             position: relative;
             overflow: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         .option-btn::before {

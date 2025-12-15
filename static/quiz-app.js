@@ -284,73 +284,72 @@ async function submitAnswer() {
     if (selectedAnswers.size === 0) return;
 
     const question = questions[currentQuestionIndex];
+    const selectedArray = Array.from(selectedAnswers);
+    const correctAnswers = question.correct_answers;
 
+    // INSTANT FEEDBACK - Check answer immediately
+    const isCorrect = selectedArray.length === correctAnswers.length &&
+                      selectedArray.every(ans => correctAnswers.includes(ans));
+
+    // Store answer info immediately
+    answeredQuestions.set(question._id, {
+        selectedAnswers: selectedArray,
+        correctAnswers: correctAnswers,
+        isCorrect: isCorrect
+    });
+
+    // Disable all options
+    const allButtons = optionsContainer.querySelectorAll('.option-btn');
+    allButtons.forEach(btn => {
+        btn.classList.add('disabled');
+        btn.classList.remove('multi-select');
+    });
+
+    // Highlight correct and incorrect answers INSTANTLY
+    Object.keys(question.options).forEach((key, index) => {
+        const button = allButtons[index];
+        if (correctAnswers.includes(key)) {
+            button.classList.add('correct');
+        }
+        if (selectedAnswers.has(key) && !correctAnswers.includes(key)) {
+            button.classList.add('incorrect');
+        }
+    });
+
+    // Show result message INSTANTLY
+    if (isCorrect) {
+        resultMessage.textContent = 'Correct! ✓';
+        resultMessage.className = 'correct';
+    } else {
+        resultMessage.textContent = `Incorrect. The correct answer(s): ${correctAnswers.join(', ')}`;
+        resultMessage.className = 'incorrect';
+    }
+
+    submitAnswerBtn.style.display = 'none';
+    multiSelectHint.style.display = 'none';
+    updateScore();
+    updateNavigationButtons();
+    renderQuestionsList();
+
+    // Save to backend in background (non-blocking)
+    saveAnswerToBackend(question._id, selectedArray);
+}
+
+async function saveAnswerToBackend(questionId, selectedAnswers) {
     try {
-        submitAnswerBtn.disabled = true;
-        submitAnswerBtn.textContent = 'Submitting...';
-
-        const response = await fetch(`${API_BASE_URL}/api/attempts/${currentAttempt.id}/answer`, {
+        await fetch(`${API_BASE_URL}/api/attempts/${currentAttempt.id}/answer`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                questionId: question._id,
-                selectedAnswers: Array.from(selectedAnswers)
+                questionId: questionId,
+                selectedAnswers: selectedAnswers
             })
         });
-
-        if (!response.ok) {
-            throw new Error('Failed to submit answer');
-        }
-
-        const result = await response.json();
-
-        // Store answer info
-        answeredQuestions.set(question._id, {
-            selectedAnswers: Array.from(selectedAnswers),
-            correctAnswers: result.correctAnswers,
-            isCorrect: result.isCorrect
-        });
-
-        // Disable all options
-        const allButtons = optionsContainer.querySelectorAll('.option-btn');
-        allButtons.forEach(btn => {
-            btn.classList.add('disabled');
-            btn.classList.remove('multi-select');
-        });
-
-        // Highlight correct and incorrect answers
-        Object.keys(question.options).forEach((key, index) => {
-            const button = allButtons[index];
-            if (result.correctAnswers.includes(key)) {
-                button.classList.add('correct');
-            }
-            if (selectedAnswers.has(key) && !result.correctAnswers.includes(key)) {
-                button.classList.add('incorrect');
-            }
-        });
-
-        // Show result message
-        if (result.isCorrect) {
-            resultMessage.textContent = 'Correct!';
-            resultMessage.className = 'correct';
-        } else {
-            resultMessage.textContent = `Incorrect. The correct answer(s): ${result.correctAnswers.join(', ')}`;
-            resultMessage.className = 'incorrect';
-        }
-
-        submitAnswerBtn.style.display = 'none';
-        multiSelectHint.style.display = 'none';
-        updateScore();
-        updateNavigationButtons();
-        renderQuestionsList();
-
     } catch (error) {
-        console.error('Error submitting answer:', error);
-        alert('Failed to submit answer. Please try again.');
-        submitAnswerBtn.disabled = false;
-        submitAnswerBtn.textContent = 'Submit Answer';
+        console.error('Background save failed:', error);
+        // Silently fail - user already got instant feedback
     }
 }
 

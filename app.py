@@ -191,8 +191,8 @@ def get_question_sets():
 @app.route('/api/questions/set/<int:set_number>', methods=['GET'])
 def get_questions_by_set(set_number):
     questions = list(questions_collection.find(
-        {'question_set': set_number},
-        {'correct_answers': 0}  # Exclude correct answers from response
+        {'question_set': set_number}
+        # Include correct_answers for instant feedback
     ).sort('_id', 1))
 
     # Convert ObjectId to string
