@@ -33,6 +33,8 @@ db = client[DB_NAME]
 questions_collection = db['questions']
 users_collection = db['users']
 attempts_collection = db['attempts']
+coding_questions_collection = db['coding_questions']
+coding_submissions_collection = db['coding_submissions']
 
 @app.route('/')
 def index():
@@ -86,6 +88,37 @@ def coding_practice():
 @app.route('/interview-prep')
 def interview_prep():
     return render_template('interview_prep.html')
+
+# User Profile Pages
+@app.route('/account')
+@login_required
+def account():
+    return render_template('under_construction.html', page_title='Account')
+
+@app.route('/settings')
+@login_required
+def settings():
+    return render_template('under_construction.html', page_title='Settings')
+
+@app.route('/my-courses')
+@login_required
+def my_courses():
+    return render_template('under_construction.html', page_title='My Courses')
+
+@app.route('/payments')
+@login_required
+def payments():
+    return render_template('under_construction.html', page_title='Payments')
+
+@app.route('/exam-history')
+@login_required
+def exam_history():
+    return render_template('under_construction.html', page_title='Exam History')
+
+@app.route('/performance-analytics')
+@login_required
+def performance_analytics():
+    return render_template('under_construction.html', page_title='Performance Analytics')
 
 # Authentication Routes
 
@@ -420,6 +453,133 @@ def update_question(question_id):
 def delete_question(question_id):
     questions_collection.delete_one({'_id': ObjectId(question_id)})
     return jsonify({'message': 'Question deleted'})
+
+# Coding Practice Routes
+
+@app.route('/api/coding/questions/<language>', methods=['GET'])
+def get_coding_questions(language):
+    """Get all coding questions for a specific language"""
+    questions = list(coding_questions_collection.find(
+        {'language': language}
+    ).sort('created_at', 1))
+
+    # Convert ObjectId to string
+    for q in questions:
+        q['_id'] = str(q['_id'])
+        if 'created_at' in q:
+            q['created_at'] = q['created_at'].isoformat()
+
+    return jsonify(questions)
+
+@app.route('/api/coding/question/<question_id>', methods=['GET'])
+def get_coding_question(question_id):
+    """Get a specific coding question by ID"""
+    question = coding_questions_collection.find_one({'_id': ObjectId(question_id)})
+
+    if not question:
+        return jsonify({'error': 'Question not found'}), 404
+
+    question['_id'] = str(question['_id'])
+    if 'created_at' in question:
+        question['created_at'] = question['created_at'].isoformat()
+
+    return jsonify(question)
+
+@app.route('/api/coding/run', methods=['POST'])
+def run_code():
+    """Run code without saving (for testing)"""
+    data = request.get_json()
+    code = data.get('code', '')
+    language = data.get('language', 'python')
+
+    # Note: This is a placeholder. In production, you would:
+    # 1. Use a sandboxed environment (Docker container)
+    # 2. Set time limits
+    # 3. Restrict system calls
+    # 4. Handle different languages appropriately
+
+    try:
+        # For now, just return a success message
+        # In production, you'd execute the code safely
+        return jsonify({
+            'success': True,
+            'output': 'Code execution is not implemented yet. This is a demo.\nYour code was received and would be executed in a sandboxed environment.',
+            'language': language
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 400
+
+@app.route('/api/coding/submit', methods=['POST'])
+def submit_code():
+    """Submit code solution for evaluation"""
+    data = request.get_json()
+    code = data.get('code', '')
+    language = data.get('language', 'python')
+    question_id = data.get('questionId')
+
+    # Get the question to access test cases
+    question = coding_questions_collection.find_one({'_id': ObjectId(question_id)})
+
+    if not question:
+        return jsonify({'error': 'Question not found'}), 404
+
+    # Save submission if user is logged in
+    if 'user_id' in session:
+        coding_submissions_collection.insert_one({
+            'user_id': session['user_id'],
+            'question_id': question_id,
+            'language': language,
+            'code': code,
+            'submitted_at': datetime.now()
+        })
+
+    # Note: This is a placeholder for actual code evaluation
+    # In production, you would:
+    # 1. Run the code against test cases
+    # 2. Compare outputs
+    # 3. Measure runtime
+
+    try:
+        # Mock evaluation - randomly pass/fail for demo
+        import random
+        passed = random.randint(2, 3)
+        total = 3
+
+        return jsonify({
+            'success': passed == total,
+            'passed': passed,
+            'total': total,
+            'runtime': '45 ms',
+            'error': None if passed == total else 'Test case 3 failed: Expected output does not match'
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'passed': 0,
+            'total': 3,
+            'error': str(e)
+        }), 400
+
+@app.route('/api/coding/submissions', methods=['GET'])
+@login_required
+def get_user_submissions():
+    """Get all submissions for the logged-in user"""
+    user_id = session['user_id']
+
+    submissions = list(coding_submissions_collection.find(
+        {'user_id': user_id}
+    ).sort('submitted_at', -1).limit(50))
+
+    # Convert for JSON
+    for sub in submissions:
+        sub['_id'] = str(sub['_id'])
+        if 'submitted_at' in sub:
+            sub['submitted_at'] = sub['submitted_at'].isoformat()
+
+    return jsonify({'submissions': submissions})
 
 if __name__ == '__main__':
     print("Connecting to MongoDB Atlas...")

@@ -11,7 +11,7 @@
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #667eea 50%, #f093fb 75%, #667eea 100%);
+            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 25%, #1e3a5f 50%, #2ca7c0 75%, #1e3a5f 100%);
             background-size: 400% 400%;
             animation: gradientShift 15s ease infinite;
         }
@@ -43,9 +43,9 @@
 
         .sidebar-header {
             padding: 25px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 100%);
             color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.3);
         }
 
         .sidebar-header h2 {
@@ -85,15 +85,15 @@
 
         .question-item:hover {
             transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 12px rgba(44, 167, 192, 0.3);
             background: rgba(255, 255, 255, 1);
         }
 
         .question-item.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 100%);
             color: white;
             transform: translateX(5px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 20px rgba(30, 58, 95, 0.4);
         }
 
         .question-item.answered {
@@ -179,8 +179,116 @@
 
         .user-name-display {
             font-size: 16px;
-            color: #667eea;
+            color: #2ca7c0;
             font-weight: 600;
+        }
+
+        /* User Profile Dropdown */
+        .user-profile-container {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.3);
+            border: 3px solid white;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(44, 167, 192, 0.5);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .profile-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-dropdown-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 100%);
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-dropdown-header .user-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .profile-dropdown-header .user-email {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .profile-menu {
+            list-style: none;
+            padding: 8px 0;
+            margin: 0;
+        }
+
+        .profile-menu-item {
+            padding: 0;
+            margin: 0;
+        }
+
+        .profile-menu-item a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            gap: 12px;
+        }
+
+        .profile-menu-item a:hover {
+            background: #f8f9fa;
+            color: #2ca7c0;
+        }
+
+        .profile-menu-item.logout a {
+            color: #dc3545;
+        }
+
+        .profile-menu-item.logout a:hover {
+            background: #fff5f5;
+        }
+
+        .menu-icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
         }
 
         .header-actions {
@@ -190,17 +298,17 @@
         }
 
         .back-link {
-            color: #667eea;
+            color: #2ca7c0;
             text-decoration: none;
             font-size: 14px;
             padding: 8px 16px;
-            border: 2px solid #667eea;
+            border: 2px solid #2ca7c0;
             border-radius: 6px;
             transition: all 0.3s ease;
         }
 
         .back-link:hover {
-            background: #667eea;
+            background: #2ca7c0;
             color: white;
         }
 
@@ -228,13 +336,13 @@
             transform: translateY(-50%);
             width: 20px;
             height: 20px;
-            border: 2px solid #667eea;
+            border: 2px solid #2ca7c0;
             border-radius: 4px;
         }
 
         .option-btn.multi-select.selected::before {
-            background: #667eea;
-            border-color: #667eea;
+            background: #2ca7c0;
+            border-color: #2ca7c0;
         }
 
         .option-btn.multi-select.selected::after {
@@ -302,7 +410,7 @@
         }
 
         #question-text {
-            font-size: 20px;
+            font-size: 16px;
             color: #1a202c;
             margin-bottom: 30px;
             line-height: 1.7;
@@ -323,12 +431,12 @@
         .option-btn {
             background: white;
             border: none;
-            padding: 18px 24px;
+            padding: 14px 20px;
             border-radius: 14px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: left;
-            font-size: 17px;
+            font-size: 14px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             position: relative;
             overflow: hidden;
@@ -345,7 +453,7 @@
             left: 0;
             width: 0;
             height: 100%;
-            background: linear-gradient(90deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            background: linear-gradient(90deg, rgba(30, 58, 95, 0.1) 0%, rgba(44, 167, 192, 0.1) 100%);
             transition: width 0.3s ease;
             z-index: 0;
         }
@@ -356,13 +464,13 @@
 
         .option-btn:hover:not(.disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.25);
+            box-shadow: 0 6px 20px rgba(44, 167, 192, 0.25);
         }
 
         .option-btn.selected {
-            background: linear-gradient(135deg, #e8f0fe 0%, #f0f4ff 100%);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-            border-left: 4px solid #667eea;
+            background: linear-gradient(135deg, #e0f7fa 0%, #e8f5f7 100%);
+            box-shadow: 0 4px 15px rgba(44, 167, 192, 0.3);
+            border-left: 4px solid #2ca7c0;
         }
 
         .option-btn.correct {
@@ -439,14 +547,14 @@
         }
 
         #prev-btn, #next-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 100%);
             color: white;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
         }
 
         #prev-btn:hover:not(:disabled), #next-btn:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 20px rgba(44, 167, 192, 0.4);
         }
 
         #prev-btn:disabled, #next-btn:disabled {
@@ -528,11 +636,67 @@
             <div class="quiz-header">
                 <div class="quiz-header-info">
                     <h1 id="quiz-title">DataEngineerPrep Quiz</h1>
-                    <div class="user-name-display" id="user-display"></div>
                 </div>
                 <div class="header-actions">
                     <a href="/home" class="back-link">← Back to Sets</a>
                     <button id="quit-btn" class="btn-quit" onclick="quitQuiz()">Quit Quiz</button>
+
+                    <!-- User Profile Dropdown -->
+                    <div class="user-profile-container">
+                        <div class="user-avatar" id="user-avatar" onclick="toggleProfileDropdown()">
+                            <span id="user-initials"></span>
+                        </div>
+                        <div class="profile-dropdown" id="profile-dropdown">
+                            <div class="profile-dropdown-header">
+                                <div class="user-name" id="dropdown-user-name"></div>
+                                <div class="user-email" id="dropdown-user-email"></div>
+                            </div>
+                            <ul class="profile-menu">
+                                <li class="profile-menu-item">
+                                    <a href="/account">
+                                        <span class="menu-icon">👤</span>
+                                        <span>Account</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="/settings">
+                                        <span class="menu-icon">⚙️</span>
+                                        <span>Settings</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="/my-courses">
+                                        <span class="menu-icon">📚</span>
+                                        <span>My Courses</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="/payments">
+                                        <span class="menu-icon">💳</span>
+                                        <span>Payments</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="/exam-history">
+                                        <span class="menu-icon">📝</span>
+                                        <span>Exam History</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="/performance-analytics">
+                                        <span class="menu-icon">📊</span>
+                                        <span>Performance Analytics</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item logout">
+                                    <a href="#" onclick="handleLogout(event)">
+                                        <span class="menu-icon">🚪</span>
+                                        <span>Logout</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
 

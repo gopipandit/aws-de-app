@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -63,7 +63,7 @@
         }
 
         .tab.active {
-            background: #667eea;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 100%);
             color: white;
         }
 
@@ -102,12 +102,12 @@
 
         .form-group input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #2ca7c0;
         }
 
         .btn-submit {
             width: 100%;
-            background: #667eea;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 100%);
             color: white;
             padding: 14px;
             border: none;
@@ -120,9 +120,8 @@
         }
 
         .btn-submit:hover {
-            background: #5568d3;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 30px rgba(44, 167, 192, 0.4);
         }
 
         .btn-submit:disabled {

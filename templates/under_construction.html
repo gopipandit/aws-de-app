@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }} - DataEngineerPrep</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='signature.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 25%, #1e3a5f 50%, #2ca7c0 75%, #1e3a5f 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .construction-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            padding: 60px 80px;
+            text-align: center;
+            max-width: 600px;
+            margin: 20px;
+        }
+
+        .construction-icon {
+            font-size: 120px;
+            margin-bottom: 30px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #2ca7c0;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.3);
+            margin: 5px;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(44, 167, 192, 0.4);
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="construction-container">
+        <div class="construction-icon">🚧</div>
+        <h1>{{ page_title }}</h1>
+        <p class="subtitle">Under Construction</p>
+        <p>
+            This feature is currently being developed and will be available soon.
+            We're working hard to bring you an amazing experience!
+        </p>
+        <p style="font-size: 14px; color: #999; margin-top: 40px;">
+            Stay tuned for updates. Thank you for your patience!
+        </p>
+        <div class="btn-container">
+            <a href="/home" class="back-btn">← Back to Home</a>
+            <a href="javascript:history.back()" class="back-btn" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">← Go Back</a>
+        </div>
+    </div>
+</body>
+</html>

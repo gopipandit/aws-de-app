@@ -14,65 +14,603 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 100%);
-            min-height: 100vh;
+            background: #f5f5f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-left {
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
+            gap: 20px;
         }
 
-        .container {
-            background: white;
-            border-radius: 20px;
-            padding: 60px;
-            max-width: 600px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        h1 {
-            font-size: 48px;
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
             color: #1a202c;
-            margin-bottom: 20px;
         }
 
-        .icon {
-            font-size: 80px;
-            margin-bottom: 30px;
-        }
-
-        p {
-            font-size: 18px;
-            color: #4a5568;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .btn-home {
-            display: inline-block;
-            padding: 15px 40px;
-            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 100%);
-            color: white;
+        .back-link {
+            color: #667eea;
             text-decoration: none;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 16px;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 2px solid #667eea;
+            border-radius: 6px;
             transition: all 0.3s ease;
         }
 
-        .btn-home:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(44, 167, 192, 0.4);
+        .back-link:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Language Tabs */
+        .language-tabs {
+            display: flex;
+            gap: 5px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Main Container */
+        .main-container {
+            display: flex;
+            height: calc(100vh - 70px);
+        }
+
+        /* Left Panel - Question */
+        .left-panel {
+            width: 45%;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            overflow-y: auto;
+        }
+
+        .question-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .question-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 10px;
+        }
+
+        .difficulty {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .difficulty-easy {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .difficulty-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .difficulty-hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .question-content {
+            padding: 30px;
+        }
+
+        .question-section {
+            margin-bottom: 25px;
+        }
+
+        .question-section h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 10px;
+        }
+
+        .question-section p {
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .example-box {
+            background: #f8f9fa;
+            border-left: 3px solid #667eea;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .example-box strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #1a202c;
+        }
+
+        /* Right Panel - Editor */
+        .right-panel {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #1e1e1e;
+        }
+
+        .editor-header {
+            background: #2d2d2d;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .editor-title {
+            color: #d4d4d4;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-run {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-run:hover {
+            background: #218838;
+        }
+
+        .btn-submit {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background: #5568d3;
+        }
+
+        .btn-reset {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background: #5a6268;
+        }
+
+        .editor-container {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        #code-editor {
+            width: 100%;
+            height: 100%;
+            font-size: 14px;
+        }
+
+        /* Output Panel */
+        .output-panel {
+            background: #1e1e1e;
+            border-top: 1px solid #3d3d3d;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .output-header {
+            background: #2d2d2d;
+            padding: 10px 20px;
+            color: #d4d4d4;
+            font-size: 13px;
+            font-weight: 600;
+            border-bottom: 1px solid #3d3d3d;
+        }
+
+        .output-content {
+            padding: 15px 20px;
+            color: #d4d4d4;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .output-content.success {
+            color: #4caf50;
+        }
+
+        .output-content.error {
+            color: #f44336;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        /* Question List Sidebar */
+        .questions-sidebar {
+            width: 300px;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .sidebar-header h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        .question-list {
+            padding: 10px;
+        }
+
+        .question-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .question-item:hover {
+            background: #e9ecef;
+        }
+
+        .question-item.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .question-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .question-item-meta {
+            font-size: 12px;
+            opacity: 0.8;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="icon">💻</div>
-        <h1>Coding Practice</h1>
-        <p>This section is coming soon! We're preparing exciting coding challenges covering data structures, algorithms, SQL, and data engineering concepts.</p>
-        <a href="/" class="btn-home">← Back to Home</a>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">💻 DataEngineerPrep</div>
+            <a href="/" class="back-link">← Back to Home</a>
+        </div>
+        <div class="language-tabs">
+            <button class="tab-btn active" data-language="python" onclick="switchLanguage('python')">Python</button>
+            <button class="tab-btn" data-language="pyspark" onclick="switchLanguage('pyspark')">PySpark</button>
+            <button class="tab-btn" data-language="sql" onclick="switchLanguage('sql')">SQL</button>
+        </div>
     </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Questions Sidebar -->
+        <div class="questions-sidebar">
+            <div class="sidebar-header">
+                <h3 id="sidebar-title">Python Problems</h3>
+            </div>
+            <div class="question-list" id="question-list">
+                <div class="loading">Loading questions...</div>
+            </div>
+        </div>
+
+        <!-- Left Panel - Question Description -->
+        <div class="left-panel">
+            <div class="question-header">
+                <h1 class="question-title" id="question-title">Select a question to begin</h1>
+                <span class="difficulty" id="difficulty"></span>
+            </div>
+            <div class="question-content" id="question-content">
+                <p style="color: #666;">Select a question from the sidebar to view details.</p>
+            </div>
+        </div>
+
+        <!-- Right Panel - Code Editor -->
+        <div class="right-panel">
+            <div class="editor-header">
+                <div class="editor-title">Code Editor</div>
+                <div class="editor-actions">
+                    <button class="btn btn-reset" onclick="resetCode()">Reset</button>
+                    <button class="btn btn-run" onclick="runCode()">▶ Run Code</button>
+                    <button class="btn btn-submit" onclick="submitCode()">Submit</button>
+                </div>
+            </div>
+            <div class="editor-container">
+                <textarea id="code-editor"># Write your code here</textarea>
+            </div>
+            <div class="output-panel" id="output-panel" style="display: none;">
+                <div class="output-header">Output</div>
+                <div class="output-content" id="output-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = '';
+        let currentLanguage = 'python';
+        let currentQuestion = null;
+        let questions = [];
+
+        // Load questions on page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            await loadQuestions(currentLanguage);
+        });
+
+        async function loadQuestions(language) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/coding/questions/${language}`);
+                if (!response.ok) {
+                    throw new Error('Failed to load questions');
+                }
+
+                questions = await response.json();
+                renderQuestionList(questions);
+
+                // Load first question by default
+                if (questions.length > 0) {
+                    loadQuestion(questions[0]);
+                }
+            } catch (error) {
+                console.error('Error loading questions:', error);
+                document.getElementById('question-list').innerHTML =
+                    '<div style="padding: 20px; color: #dc3545;">Failed to load questions. Please try again.</div>';
+            }
+        }
+
+        function renderQuestionList(questionList) {
+            const listContainer = document.getElementById('question-list');
+            listContainer.innerHTML = '';
+
+            questionList.forEach((q, index) => {
+                const item = document.createElement('div');
+                item.className = 'question-item';
+                if (index === 0) item.classList.add('active');
+
+                item.innerHTML = `
+                    <div class="question-item-title">${index + 1}. ${q.title}</div>
+                    <div class="question-item-meta">${q.difficulty}</div>
+                `;
+
+                item.onclick = () => {
+                    document.querySelectorAll('.question-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    loadQuestion(q);
+                };
+
+                listContainer.appendChild(item);
+            });
+        }
+
+        function loadQuestion(question) {
+            currentQuestion = question;
+
+            // Update question title and difficulty
+            document.getElementById('question-title').textContent = question.title;
+            const difficultyEl = document.getElementById('difficulty');
+            difficultyEl.textContent = question.difficulty;
+            difficultyEl.className = 'difficulty difficulty-' + question.difficulty.toLowerCase();
+
+            // Update question content
+            const contentHTML = `
+                <div class="question-section">
+                    <h3>Description</h3>
+                    <p>${question.description}</p>
+                </div>
+
+                ${question.examples ? question.examples.map((ex, i) => `
+                    <div class="question-section">
+                        <h3>Example ${i + 1}:</h3>
+                        <div class="example-box">
+                            <strong>Input:</strong> ${ex.input}<br>
+                            <strong>Output:</strong> ${ex.output}<br>
+                            ${ex.explanation ? `<strong>Explanation:</strong> ${ex.explanation}` : ''}
+                        </div>
+                    </div>
+                `).join('') : ''}
+
+                ${question.constraints ? `
+                    <div class="question-section">
+                        <h3>Constraints</h3>
+                        <p>${question.constraints}</p>
+                    </div>
+                ` : ''}
+            `;
+
+            document.getElementById('question-content').innerHTML = contentHTML;
+
+            // Set starter code
+            document.getElementById('code-editor').value = question.starter_code || getDefaultStarterCode(currentLanguage);
+        }
+
+        function getDefaultStarterCode(language) {
+            const starters = {
+                python: '# Write your Python code here\n\ndef solution():\n    pass\n',
+                pyspark: '# Write your PySpark code here\nfrom pyspark.sql import SparkSession\n\nspark = SparkSession.builder.appName("solution").getOrCreate()\n\n# Your code here\n',
+                sql: '-- Write your SQL query here\nSELECT * FROM table;\n'
+            };
+            return starters[language] || '';
+        }
+
+        function switchLanguage(language) {
+            currentLanguage = language;
+
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.language === language) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update sidebar title
+            const titles = {
+                python: 'Python Problems',
+                pyspark: 'PySpark Problems',
+                sql: 'SQL Problems'
+            };
+            document.getElementById('sidebar-title').textContent = titles[language];
+
+            // Load questions for the language
+            loadQuestions(language);
+        }
+
+        function resetCode() {
+            if (currentQuestion) {
+                document.getElementById('code-editor').value = currentQuestion.starter_code || getDefaultStarterCode(currentLanguage);
+            }
+            document.getElementById('output-panel').style.display = 'none';
+        }
+
+        async function runCode() {
+            const code = document.getElementById('code-editor').value;
+            const outputPanel = document.getElementById('output-panel');
+            const outputContent = document.getElementById('output-content');
+
+            outputPanel.style.display = 'block';
+            outputContent.className = 'output-content';
+            outputContent.textContent = 'Running code...';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/coding/run`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        code: code,
+                        language: currentLanguage,
+                        questionId: currentQuestion._id
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    outputContent.className = 'output-content success';
+                    outputContent.textContent = result.output || 'Code executed successfully!';
+                } else {
+                    outputContent.className = 'output-content error';
+                    outputContent.textContent = result.error || 'Execution failed';
+                }
+            } catch (error) {
+                outputContent.className = 'output-content error';
+                outputContent.textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function submitCode() {
+            const code = document.getElementById('code-editor').value;
+            const outputPanel = document.getElementById('output-panel');
+            const outputContent = document.getElementById('output-content');
+
+            outputPanel.style.display = 'block';
+            outputContent.className = 'output-content';
+            outputContent.textContent = 'Submitting solution...';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/coding/submit`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        code: code,
+                        language: currentLanguage,
+                        questionId: currentQuestion._id
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    outputContent.className = 'output-content success';
+                    outputContent.innerHTML = `
+                        ✓ Accepted!<br><br>
+                        Test Cases Passed: ${result.passed}/${result.total}<br>
+                        Runtime: ${result.runtime || 'N/A'}
+                    `;
+                } else {
+                    outputContent.className = 'output-content error';
+                    outputContent.innerHTML = `
+                        ✗ Wrong Answer<br><br>
+                        Test Cases Passed: ${result.passed}/${result.total}<br>
+                        ${result.error || ''}
+                    `;
+                }
+            } catch (error) {
+                outputContent.className = 'output-content error';
+                outputContent.textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
 </body>
 </html>

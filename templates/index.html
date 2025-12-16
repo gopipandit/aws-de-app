@@ -315,6 +315,123 @@
             opacity: 0.8;
         }
 
+        /* User Profile Dropdown */
+        .user-profile-container {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.3);
+            border: 3px solid white;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.5);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .profile-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-dropdown-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 100%);
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-dropdown-header .user-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .profile-dropdown-header .user-email {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .profile-menu {
+            list-style: none;
+            padding: 8px 0;
+            margin: 0;
+        }
+
+        .profile-menu-item {
+            padding: 0;
+            margin: 0;
+        }
+
+        .profile-menu-item a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            gap: 12px;
+        }
+
+        .profile-menu-item a:hover {
+            background: #f8f9fa;
+            color: #2ca7c0;
+        }
+
+        .profile-menu-item.logout a {
+            color: #dc3545;
+        }
+
+        .profile-menu-item.logout a:hover {
+            background: #fff5f5;
+        }
+
+        .menu-icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Hide auth buttons by default, show via JS */
+        .navbar-auth {
+            display: none;
+        }
+
+        .navbar-auth.show {
+            display: flex;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .navbar-menu {
@@ -362,9 +479,73 @@
                 </li>
             </ul>
 
-            <div class="navbar-auth">
+            <!-- Auth buttons (shown when not logged in) -->
+            <div class="navbar-auth" id="navbar-auth">
                 <a href="/login" class="btn-login">Login</a>
                 <a href="/signup" class="btn-signup">Sign Up</a>
+            </div>
+
+            <!-- User Profile Dropdown (shown when logged in) -->
+            <div class="user-profile-container" id="user-profile-container" style="display: none;">
+                <div class="user-avatar" id="user-avatar" onclick="toggleProfileDropdown()">
+                    <span id="user-initials"></span>
+                </div>
+                <div class="profile-dropdown" id="profile-dropdown">
+                    <div class="profile-dropdown-header">
+                        <div class="user-name" id="dropdown-user-name"></div>
+                        <div class="user-email" id="dropdown-user-email"></div>
+                    </div>
+                    <ul class="profile-menu">
+                        <li class="profile-menu-item">
+                            <a href="/home">
+                                <span class="menu-icon">🏠</span>
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        <li class="profile-menu-item">
+                            <a href="/account">
+                                <span class="menu-icon">👤</span>
+                                <span>Account</span>
+                            </a>
+                        </li>
+                        <li class="profile-menu-item">
+                            <a href="/settings">
+                                <span class="menu-icon">⚙️</span>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                        <li class="profile-menu-item">
+                            <a href="/my-courses">
+                                <span class="menu-icon">📚</span>
+                                <span>My Courses</span>
+                            </a>
+                        </li>
+                        <li class="profile-menu-item">
+                            <a href="/payments">
+                                <span class="menu-icon">💳</span>
+                                <span>Payments</span>
+                            </a>
+                        </li>
+                        <li class="profile-menu-item">
+                            <a href="/exam-history">
+                                <span class="menu-icon">📝</span>
+                                <span>Exam History</span>
+                            </a>
+                        </li>
+                        <li class="profile-menu-item">
+                            <a href="/performance-analytics">
+                                <span class="menu-icon">📊</span>
+                                <span>Performance Analytics</span>
+                            </a>
+                        </li>
+                        <li class="profile-menu-item logout">
+                            <a href="#" onclick="handleLogout(event)">
+                                <span class="menu-icon">🚪</span>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
@@ -412,5 +593,85 @@
     <footer class="footer">
         <p>&copy; 2025 DataEngineerPrep. All rights reserved.</p>
     </footer>
+
+    <script>
+        const API_BASE_URL = '';
+
+        // Check authentication status on page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            await checkAuthStatus();
+        });
+
+        async function checkAuthStatus() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/auth/check`);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    // User is logged in
+                    showProfileDropdown(data.user);
+                } else {
+                    // User is not logged in
+                    showAuthButtons();
+                }
+            } catch (error) {
+                // Error or not logged in
+                showAuthButtons();
+            }
+        }
+
+        function showProfileDropdown(user) {
+            // Hide auth buttons
+            document.getElementById('navbar-auth').style.display = 'none';
+
+            // Show profile dropdown
+            const profileContainer = document.getElementById('user-profile-container');
+            profileContainer.style.display = 'block';
+
+            // Set user info
+            const initials = user.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+            document.getElementById('user-initials').textContent = initials;
+            document.getElementById('dropdown-user-name').textContent = user.name;
+            document.getElementById('dropdown-user-email').textContent = user.email;
+        }
+
+        function showAuthButtons() {
+            // Show auth buttons
+            document.getElementById('navbar-auth').classList.add('show');
+
+            // Hide profile dropdown
+            document.getElementById('user-profile-container').style.display = 'none';
+        }
+
+        // Profile dropdown functions
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profile-dropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const profileContainer = document.querySelector('.user-profile-container');
+            const dropdown = document.getElementById('profile-dropdown');
+
+            if (profileContainer && !profileContainer.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        async function handleLogout(event) {
+            event.preventDefault();
+
+            try {
+                await fetch(`${API_BASE_URL}/api/auth/logout`, {
+                    method: 'POST'
+                });
+                window.location.reload();
+            } catch (error) {
+                console.error('Logout failed:', error);
+                window.location.reload();
+            }
+        }
+    </script>
 </body>
 </html>

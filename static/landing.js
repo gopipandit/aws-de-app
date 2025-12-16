@@ -46,6 +46,12 @@ async function showQuestionSets() {
 
     document.getElementById('welcome-message').textContent = `Welcome, ${currentUser.name}!`;
 
+    // Set user info in profile dropdown
+    const initials = currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+    document.getElementById('user-initials').textContent = initials;
+    document.getElementById('dropdown-user-name').textContent = currentUser.name;
+    document.getElementById('dropdown-user-email').textContent = currentUser.email;
+
     // Update user stats
     document.getElementById('total-attempts').textContent = userAttempts.length;
 
@@ -132,6 +138,36 @@ async function logout() {
         window.location.href = '/';
     } catch (error) {
         console.error('Logout error:', error);
+        window.location.href = '/';
+    }
+}
+
+// Profile dropdown functions
+function toggleProfileDropdown() {
+    const dropdown = document.getElementById('profile-dropdown');
+    dropdown.classList.toggle('show');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const profileContainer = document.querySelector('.user-profile-container');
+    const dropdown = document.getElementById('profile-dropdown');
+
+    if (profileContainer && !profileContainer.contains(event.target)) {
+        dropdown.classList.remove('show');
+    }
+});
+
+async function handleLogout(event) {
+    event.preventDefault();
+
+    try {
+        await fetch(`${API_BASE_URL}/api/auth/logout`, {
+            method: 'POST'
+        });
+        window.location.href = '/';
+    } catch (error) {
+        console.error('Logout failed:', error);
         window.location.href = '/';
     }
 }

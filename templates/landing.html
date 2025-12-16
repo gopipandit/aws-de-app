@@ -63,11 +63,11 @@
 
         .input-group input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #2ca7c0;
         }
 
         .btn-primary {
-            background: #667eea;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 100%);
             color: white;
             padding: 15px 40px;
             border: none;
@@ -80,9 +80,8 @@
         }
 
         .btn-primary:hover {
-            background: #5568d3;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 30px rgba(44, 167, 192, 0.4);
         }
 
         .btn-primary:disabled {
@@ -121,7 +120,7 @@
 
         .set-item:hover {
             background: #e8e9eb;
-            border-color: #667eea;
+            border-color: #2ca7c0;
             transform: translateY(-2px);
         }
 
@@ -133,7 +132,7 @@
         .set-number {
             font-size: 24px;
             font-weight: bold;
-            color: #667eea;
+            color: #2ca7c0;
             margin-bottom: 5px;
         }
 
@@ -175,7 +174,7 @@
         .stat-value {
             font-size: 28px;
             font-weight: bold;
-            color: #667eea;
+            color: #2ca7c0;
         }
 
         .stat-label {
@@ -205,13 +204,129 @@
         }
 
         .admin-link a {
-            color: #667eea;
+            color: #2ca7c0;
             text-decoration: none;
             font-size: 14px;
         }
 
         .admin-link a:hover {
             text-decoration: underline;
+        }
+
+        /* User Profile Dropdown */
+        .user-profile-section {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .user-profile-container {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+            border: 3px solid white;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 65px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(-50%) translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .profile-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .profile-dropdown-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-dropdown-header .user-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .profile-dropdown-header .user-email {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .profile-menu {
+            list-style: none;
+            padding: 8px 0;
+            margin: 0;
+        }
+
+        .profile-menu-item {
+            padding: 0;
+            margin: 0;
+        }
+
+        .profile-menu-item a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            gap: 12px;
+        }
+
+        .profile-menu-item a:hover {
+            background: #f8f9fa;
+            color: #667eea;
+        }
+
+        .profile-menu-item.logout a {
+            color: #dc3545;
+        }
+
+        .profile-menu-item.logout a:hover {
+            background: #fff5f5;
+        }
+
+        .menu-icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
         }
     </style>
 </head>
@@ -257,12 +372,67 @@
                     <div id="set-list" class="set-list"></div>
                 </div>
 
-                <div style="display: flex; gap: 10px; margin-top: 20px;">
-                    <button class="btn-primary" style="flex: 1; background: #6c757d;" onclick="logout()">Logout</button>
-                    <a href="/admin" class="btn-primary" style="flex: 1; text-decoration: none; text-align: center; line-height: 50px;">Admin Panel</a>
+                <!-- User Profile Dropdown -->
+                <div class="user-profile-section">
+                    <div class="user-profile-container">
+                        <div class="user-avatar" id="user-avatar" onclick="toggleProfileDropdown()">
+                            <span id="user-initials"></span>
+                        </div>
+                        <div class="profile-dropdown" id="profile-dropdown">
+                            <div class="profile-dropdown-header">
+                                <div class="user-name" id="dropdown-user-name"></div>
+                                <div class="user-email" id="dropdown-user-email"></div>
+                            </div>
+                            <ul class="profile-menu">
+                                <li class="profile-menu-item">
+                                    <a href="/account">
+                                        <span class="menu-icon">👤</span>
+                                        <span>Account</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="/settings">
+                                        <span class="menu-icon">⚙️</span>
+                                        <span>Settings</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="/my-courses">
+                                        <span class="menu-icon">📚</span>
+                                        <span>My Courses</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="/payments">
+                                        <span class="menu-icon">💳</span>
+                                        <span>Payments</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="/exam-history">
+                                        <span class="menu-icon">📝</span>
+                                        <span>Exam History</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item">
+                                    <a href="/performance-analytics">
+                                        <span class="menu-icon">📊</span>
+                                        <span>Performance Analytics</span>
+                                    </a>
+                                </li>
+                                <li class="profile-menu-item logout">
+                                    <a href="#" onclick="handleLogout(event)">
+                                        <span class="menu-icon">🚪</span>
+                                        <span>Logout</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
-                <div style="text-align: center; margin-top: 15px;">
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="/admin" style="color: #667eea; text-decoration: none; font-size: 14px; margin-right: 20px;">Admin Panel</a>
                     <a href="/about" style="color: #667eea; text-decoration: none; font-size: 14px;">About DataEngineerPrep</a>
                 </div>
             </div>
