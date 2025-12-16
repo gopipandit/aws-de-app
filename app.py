@@ -40,28 +40,27 @@ coding_submissions_collection = db['coding_submissions']
 def index():
     return render_template('index.html')
 
+@app.route('/home')
+def home():
+    return redirect(url_for('index'))
+
 @app.route('/login')
 def login_page():
     if 'user_id' in session:
-        return redirect(url_for('landing'))
+        return redirect(url_for('index'))
     return render_template('auth.html')
 
 @app.route('/signup')
 def signup_page():
     if 'user_id' in session:
-        return redirect(url_for('landing'))
+        return redirect(url_for('index'))
     return render_template('auth.html')
 
 @app.route('/auth')
 def auth_page():
     if 'user_id' in session:
-        return redirect(url_for('landing'))
+        return redirect(url_for('index'))
     return render_template('auth.html')
-
-@app.route('/home')
-@login_required
-def landing():
-    return render_template('landing.html')
 
 @app.route('/quiz')
 @login_required
@@ -103,7 +102,12 @@ def settings():
 @app.route('/my-courses')
 @login_required
 def my_courses():
-    return render_template('under_construction.html', page_title='My Courses')
+    return render_template('my_courses.html')
+
+@app.route('/my-courses/aws-certified-data-engineer-associate')
+@login_required
+def aws_dea_course():
+    return render_template('landing.html')
 
 @app.route('/payments')
 @login_required
@@ -113,7 +117,7 @@ def payments():
 @app.route('/exam-history')
 @login_required
 def exam_history():
-    return render_template('under_construction.html', page_title='Exam History')
+    return render_template('exam_history.html')
 
 @app.route('/performance-analytics')
 @login_required
@@ -580,6 +584,117 @@ def get_user_submissions():
             sub['submitted_at'] = sub['submitted_at'].isoformat()
 
     return jsonify({'submissions': submissions})
+
+# Exam History Routes
+
+@app.route('/api/exam-history', methods=['GET'])
+@login_required
+def get_exam_history():
+    """Get all quiz attempts for the logged-in user"""
+    try:
+        user_id = session['user_id']
+
+        # Get all attempts (both completed and in_progress)
+        attempts = list(attempts_collection.find(
+            {'user_id': user_id}
+        ).sort('created_at', -1))
+
+        # Convert for JSON
+        for attempt in attempts:
+            attempt['_id'] = str(attempt['_id'])
+
+            # Convert datetime fields
+            if 'created_at' in attempt and attempt['created_at']:
+                attempt['created_at'] = attempt['created_at'].isoformat()
+
+            if 'completed_at' in attempt and attempt['completed_at']:
+                attempt['completed_at'] = attempt['completed_at'].isoformat()
+            else:
+                attempt['completed_at'] = None
+
+            if 'started_at' in attempt and attempt['started_at']:
+                attempt['started_at'] = attempt['started_at'].isoformat()
+            else:
+                attempt['started_at'] = None
+
+            # Ensure answers array exists
+            if 'answers' not in attempt:
+                attempt['answers'] = []
+
+            # Convert answer dates
+            for answer in attempt['answers']:
+                if 'answered_at' in answer and answer['answered_at']:
+                    answer['answered_at'] = answer['answered_at'].isoformat()
+
+            # Ensure required fields exist
+            if 'score' not in attempt:
+                attempt['score'] = 0
+            if 'total_questions' not in attempt:
+                attempt['total_questions'] = 0
+            if 'status' not in attempt:
+                attempt['status'] = 'in_progress'
+
+        return jsonify({'attempts': attempts})
+
+    except Exception as e:
+        print(f"Error in get_exam_history: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e), 'attempts': []}), 500
+
+@app.route('/api/exam-history/<attempt_id>', methods=['GET'])
+@login_required
+def get_attempt_details(attempt_id):
+    """Get detailed information about a specific attempt including all questions and answers"""
+    user_id = session['user_id']
+
+    # Get the attempt
+    attempt = attempts_collection.find_one({
+        '_id': ObjectId(attempt_id),
+        'user_id': user_id
+    })
+
+    if not attempt:
+        return jsonify({'error': 'Attempt not found'}), 404
+
+    # Get all questions for this attempt
+    question_set = attempt['question_set_number']
+    questions = list(questions_collection.find({'question_set': question_set}))
+
+    # Create a map of question_id to question data
+    question_map = {str(q['_id']): q for q in questions}
+
+    # Build detailed answers with full question and option data
+    detailed_answers = []
+    for answer in attempt.get('answers', []):
+        question_id = answer['question_id']
+        if question_id in question_map:
+            question_data = question_map[question_id]
+            detailed_answers.append({
+                'question_id': question_id,
+                'question_text': question_data['question_text'],
+                'options': question_data['options'],
+                'selected_answers': answer['selected_answers'],
+                'correct_answers': question_data['correct_answers'],
+                'is_correct': answer['is_correct'],
+                'answered_at': answer['answered_at'].isoformat() if 'answered_at' in answer else None
+            })
+
+    # Prepare response
+    response = {
+        '_id': str(attempt['_id']),
+        'user_id': attempt['user_id'],
+        'user_name': attempt['user_name'],
+        'question_set_number': attempt['question_set_number'],
+        'score': attempt['score'],
+        'total_questions': attempt['total_questions'],
+        'status': attempt['status'],
+        'created_at': attempt['created_at'].isoformat() if 'created_at' in attempt else None,
+        'completed_at': attempt['completed_at'].isoformat() if 'completed_at' in attempt and attempt['completed_at'] else None,
+        'detailed_answers': detailed_answers
+    }
+
+    return jsonify(response)
 
 if __name__ == '__main__':
     print("Connecting to MongoDB Atlas...")

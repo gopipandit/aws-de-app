@@ -5,26 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Practice AWS data engineering questions organized into focused sets. Track your progress and prepare for certification exams.">
     <meta name="keywords" content="AWS data engineering, practice questions, certification prep, data engineer training">
-    <title>DataEngineerPrep - Question Sets</title>
+    <title>AWS Certified Data Engineer Associate - DataEngineerPrep</title>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='signature.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
-        .welcome-container {
+        body {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2ca7c0 100%);
             min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .course-header {
+            background: white;
+            padding: 20px 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            padding: 20px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: #2ca7c0;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: #1e3a5f;
+        }
+
+        .breadcrumb-separator {
+            color: #ccc;
+        }
+
+        .course-title-header {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a202c;
+            margin: 5px 0 0 0;
+        }
+
+        .welcome-container {
+            min-height: calc(100vh - 100px);
+            padding: 40px 20px;
         }
 
         .welcome-box {
             background: white;
             border-radius: 15px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            max-width: 600px;
+            max-width: 1200px;
             width: 100%;
+            margin: 0 auto;
             padding: 40px;
-            text-align: center;
         }
 
         .page-logo {
@@ -92,79 +134,202 @@
 
         .question-sets {
             margin-top: 30px;
-            text-align: left;
         }
 
         .question-sets h3 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 20px;
+            color: #1a202c;
+            margin-bottom: 20px;
+            font-size: 22px;
+            font-weight: 700;
         }
 
         .set-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
             margin-top: 15px;
         }
 
         .set-item {
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 15px;
-            cursor: pointer;
+            border-radius: 12px;
+            overflow: hidden;
             transition: all 0.3s ease;
-            text-align: center;
         }
 
         .set-item:hover {
-            background: #e8e9eb;
             border-color: #2ca7c0;
-            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(44, 167, 192, 0.15);
         }
 
         .set-item.completed {
-            background: #d4edda;
+            background: linear-gradient(135deg, #d4edda 0%, #e8f5e9 100%);
             border-color: #28a745;
         }
 
+        .set-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .set-header:hover {
+            background: rgba(44, 167, 192, 0.05);
+        }
+
+        .set-header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+
         .set-number {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 20px;
+            font-weight: 700;
             color: #2ca7c0;
-            margin-bottom: 5px;
+            min-width: 80px;
+        }
+
+        .set-item.completed .set-number {
+            color: #28a745;
         }
 
         .set-info {
             font-size: 14px;
             color: #666;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .set-score {
-            font-size: 12px;
+            font-size: 13px;
             color: #28a745;
             font-weight: 600;
-            margin-top: 5px;
+            background: rgba(40, 167, 69, 0.1);
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+
+        .set-header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .expand-icon {
+            font-size: 20px;
+            color: #666;
+            transition: transform 0.3s ease;
+        }
+
+        .set-item.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .start-quiz-btn {
+            background: linear-gradient(135deg, #2ca7c0 0%, #1e3a5f 100%);
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .start-quiz-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(44, 167, 192, 0.4);
+        }
+
+        .set-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .set-item.expanded .set-content {
+            max-height: 800px;
+        }
+
+        .questions-preview {
+            padding: 20px 24px;
+        }
+
+        .questions-preview h4 {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .question-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .question-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 13px;
+            color: #555;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .question-item:last-child {
+            border-bottom: none;
+        }
+
+        .question-number {
+            color: #2ca7c0;
+            font-weight: 600;
+            min-width: 30px;
+        }
+
+        .question-text {
+            flex: 1;
+            line-height: 1.5;
+        }
+
+        .loading-questions {
+            padding: 16px 24px;
+            text-align: center;
+            color: #999;
+            font-size: 14px;
         }
 
         .user-info {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            padding: 25px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 2px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .user-info h2 {
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 10px;
+            color: #1a202c;
+            font-size: 28px;
+            margin: 0;
+            font-weight: 700;
         }
 
         .user-stats {
             display: flex;
-            justify-content: space-around;
-            margin-top: 15px;
+            gap: 40px;
         }
 
         .stat-item {
@@ -172,15 +337,17 @@
         }
 
         .stat-value {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
             color: #2ca7c0;
+            line-height: 1;
         }
 
         .stat-label {
-            font-size: 14px;
+            font-size: 13px;
             color: #666;
-            margin-top: 5px;
+            margin-top: 6px;
+            font-weight: 500;
         }
 
         .loading {
@@ -214,13 +381,6 @@
         }
 
         /* User Profile Dropdown */
-        .user-profile-section {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
         .user-profile-container {
             position: relative;
         }
@@ -328,29 +488,133 @@
             width: 20px;
             text-align: center;
         }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .welcome-box {
+                padding: 25px;
+            }
+
+            .user-info {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .user-info h2 {
+                font-size: 24px;
+            }
+
+            .user-stats {
+                gap: 30px;
+                justify-content: center;
+            }
+
+            .set-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+
+            .set-header-left {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .set-header-right {
+                justify-content: space-between;
+            }
+
+            .set-number {
+                font-size: 18px;
+                min-width: auto;
+            }
+
+            .question-text {
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Course Header -->
+    <div class="course-header">
+        <div>
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                <span class="breadcrumb-separator">›</span>
+                <a href="/my-courses">My Courses</a>
+                <span class="breadcrumb-separator">›</span>
+                <span>AWS Certified Data Engineer Associate</span>
+            </div>
+            <h1 class="course-title-header">☁️ AWS Certified Data Engineer Associate</h1>
+        </div>
+
+        <!-- User Profile Dropdown -->
+        <div class="user-profile-container">
+            <div class="user-avatar" id="user-avatar-header" onclick="toggleProfileDropdown()">
+                <span id="user-initials-header"></span>
+            </div>
+            <div class="profile-dropdown" id="profile-dropdown-header">
+                <div class="profile-dropdown-header">
+                    <div class="user-name" id="dropdown-user-name-header"></div>
+                    <div class="user-email" id="dropdown-user-email-header"></div>
+                </div>
+                <ul class="profile-menu">
+                    <li class="profile-menu-item">
+                        <a href="/account">
+                            <span class="menu-icon">👤</span>
+                            <span>Account</span>
+                        </a>
+                    </li>
+                    <li class="profile-menu-item">
+                        <a href="/settings">
+                            <span class="menu-icon">⚙️</span>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="profile-menu-item">
+                        <a href="/my-courses">
+                            <span class="menu-icon">📚</span>
+                            <span>My Courses</span>
+                        </a>
+                    </li>
+                    <li class="profile-menu-item">
+                        <a href="/payments">
+                            <span class="menu-icon">💳</span>
+                            <span>Payments</span>
+                        </a>
+                    </li>
+                    <li class="profile-menu-item">
+                        <a href="/exam-history">
+                            <span class="menu-icon">📝</span>
+                            <span>Exam History</span>
+                        </a>
+                    </li>
+                    <li class="profile-menu-item">
+                        <a href="/performance-analytics">
+                            <span class="menu-icon">📊</span>
+                            <span>Performance Analytics</span>
+                        </a>
+                    </li>
+                    <li class="profile-menu-item logout">
+                        <a href="#" onclick="handleLogout(event)">
+                            <span class="menu-icon">🚪</span>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <div class="welcome-container">
         <div class="welcome-box">
-            <img src="{{ url_for('static', filename='dep_logo.png') }}" alt="DataEngineerPrep Logo" class="page-logo">
-
-            <div id="login-screen">
-                <h1>Welcome to AWS Data Engineering Quiz</h1>
-                <p>Test your knowledge with our comprehensive AWS Data Engineering practice questions.</p>
-
-                <div class="input-group">
-                    <input type="text" id="user-name" placeholder="Enter your name" autofocus>
-                </div>
-
-                <button class="btn-primary" id="start-btn" onclick="login()">Get Started</button>
-
-                <div class="admin-link">
-                    <a href="/admin">Admin Panel</a>
-                </div>
+            <div id="login-screen" style="display: none;">
+                <!-- Hidden since users are authenticated -->
             </div>
 
-            <div id="question-sets-screen">
+            <div id="question-sets-screen" style="display: block;">
                 <div class="user-info">
                     <h2 id="welcome-message">Welcome back!</h2>
                     <div class="user-stats">
@@ -372,68 +636,9 @@
                     <div id="set-list" class="set-list"></div>
                 </div>
 
-                <!-- User Profile Dropdown -->
-                <div class="user-profile-section">
-                    <div class="user-profile-container">
-                        <div class="user-avatar" id="user-avatar" onclick="toggleProfileDropdown()">
-                            <span id="user-initials"></span>
-                        </div>
-                        <div class="profile-dropdown" id="profile-dropdown">
-                            <div class="profile-dropdown-header">
-                                <div class="user-name" id="dropdown-user-name"></div>
-                                <div class="user-email" id="dropdown-user-email"></div>
-                            </div>
-                            <ul class="profile-menu">
-                                <li class="profile-menu-item">
-                                    <a href="/account">
-                                        <span class="menu-icon">👤</span>
-                                        <span>Account</span>
-                                    </a>
-                                </li>
-                                <li class="profile-menu-item">
-                                    <a href="/settings">
-                                        <span class="menu-icon">⚙️</span>
-                                        <span>Settings</span>
-                                    </a>
-                                </li>
-                                <li class="profile-menu-item">
-                                    <a href="/my-courses">
-                                        <span class="menu-icon">📚</span>
-                                        <span>My Courses</span>
-                                    </a>
-                                </li>
-                                <li class="profile-menu-item">
-                                    <a href="/payments">
-                                        <span class="menu-icon">💳</span>
-                                        <span>Payments</span>
-                                    </a>
-                                </li>
-                                <li class="profile-menu-item">
-                                    <a href="/exam-history">
-                                        <span class="menu-icon">📝</span>
-                                        <span>Exam History</span>
-                                    </a>
-                                </li>
-                                <li class="profile-menu-item">
-                                    <a href="/performance-analytics">
-                                        <span class="menu-icon">📊</span>
-                                        <span>Performance Analytics</span>
-                                    </a>
-                                </li>
-                                <li class="profile-menu-item logout">
-                                    <a href="#" onclick="handleLogout(event)">
-                                        <span class="menu-icon">🚪</span>
-                                        <span>Logout</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin-top: 20px;">
-                    <a href="/admin" style="color: #667eea; text-decoration: none; font-size: 14px; margin-right: 20px;">Admin Panel</a>
-                    <a href="/about" style="color: #667eea; text-decoration: none; font-size: 14px;">About DataEngineerPrep</a>
+                <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+                    <a href="/admin" style="color: #2ca7c0; text-decoration: none; font-size: 14px; margin-right: 20px; font-weight: 500;">Admin Panel</a>
+                    <a href="/about" style="color: #2ca7c0; text-decoration: none; font-size: 14px; font-weight: 500;">About DataEngineerPrep</a>
                 </div>
             </div>
         </div>

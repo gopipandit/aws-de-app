@@ -18,7 +18,10 @@
       "Bash(dir \"C:\\Users\\GopinathPandit\\OneDrive - ConcertAI\\Python\\Data_Engineering\\aws-de-app\")",
       "Bash(findstr /i \"logo\")",
       "Bash(dir \"C:\\Users\\GopinathPandit\\OneDrive - ConcertAI\\Python\\Data_Engineering\\aws-de-app\\*.png\")",
-      "Bash(move \"C:\\Users\\GopinathPandit\\OneDrive - ConcertAI\\Python\\Data_Engineering\\aws-de-app\\dep_logo.png\" \"C:\\Users\\GopinathPandit\\OneDrive - ConcertAI\\Python\\Data_Engineering\\aws-de-app\\static\\dep_logo.png\")"
+      "Bash(move \"C:\\Users\\GopinathPandit\\OneDrive - ConcertAI\\Python\\Data_Engineering\\aws-de-app\\dep_logo.png\" \"C:\\Users\\GopinathPandit\\OneDrive - ConcertAI\\Python\\Data_Engineering\\aws-de-app\\static\\dep_logo.png\")",
+      "Bash(grep -l 'href=\"\"/home\"\"' *.html)",
+      "Bash(python -c \"from app import app; [print(f''{rule.rule} -> {rule.endpoint}'') for rule in app.url_map.iter_rules() if rule.endpoint in [''index'', ''home'', ''welcome'', ''auth_page'']]\")",
+      "Bash(python -c \"from app import app; routes = [rule for rule in app.url_map.iter_rules() if rule.endpoint in [''index'', ''home'', ''my_courses'', ''aws_dea_course'', ''auth_page'']]; [print(f''{rule.rule} -> {rule.endpoint}'') for rule in routes]\")"
     ]
   }
 }
