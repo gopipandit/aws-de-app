@@ -133,6 +133,7 @@ async function saveQuestion(e) {
     const category = document.getElementById('category').value.trim();
     const difficulty = document.getElementById('difficulty').value;
     const questionSet = parseInt(document.getElementById('question-set').value);
+    const explanation = document.getElementById('explanation').value.trim();
 
     // Collect options
     const optionRows = document.querySelectorAll('.option-row');
@@ -163,7 +164,8 @@ async function saveQuestion(e) {
         correct_answers: correctAnswers,
         category: category,
         difficulty: difficulty,
-        question_set: questionSet
+        question_set: questionSet,
+        explanation: explanation
     };
 
     try {
@@ -222,6 +224,7 @@ async function editQuestion(questionId) {
         document.getElementById('category').value = question.category;
         document.getElementById('difficulty').value = question.difficulty;
         document.getElementById('question-set').value = question.question_set;
+        document.getElementById('explanation').value = question.explanation || '';
 
         // Clear and recreate options
         const optionsContainer = document.getElementById('options-container');

@@ -189,6 +189,24 @@ body {
     border: 1px solid #f5c6cb;
 }
 
+.explanation-box {
+    margin-top: 15px;
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border-left: 4px solid #007bff;
+    border-radius: 4px;
+    font-size: 13px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.explanation-box strong {
+    color: #007bff;
+    display: inline;
+    font-weight: 700;
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 20px;

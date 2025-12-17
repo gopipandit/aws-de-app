@@ -255,6 +255,22 @@ function displayQuestion() {
             resultMessage.textContent = `Incorrect. The correct answer(s): ${previousAnswer.correctAnswers.join(', ')}`;
             resultMessage.className = 'incorrect';
         }
+
+        // Show explanation if available
+        if (question.explanation && question.explanation.trim()) {
+            const explanationDiv = document.createElement('div');
+            explanationDiv.className = 'explanation-box';
+
+            const explanationTitle = document.createElement('strong');
+            explanationTitle.textContent = 'Explanation:';
+            explanationDiv.appendChild(explanationTitle);
+
+            const explanationText = document.createElement('span');
+            explanationText.textContent = ' ' + question.explanation;
+            explanationDiv.appendChild(explanationText);
+
+            resultMessage.appendChild(explanationDiv);
+        }
     }
 
     updateNavigationButtons();
@@ -328,6 +344,22 @@ async function submitAnswer() {
     } else {
         resultMessage.textContent = `Incorrect. The correct answer(s): ${correctAnswers.join(', ')}`;
         resultMessage.className = 'incorrect';
+    }
+
+    // Show explanation if available
+    if (question.explanation && question.explanation.trim()) {
+        const explanationDiv = document.createElement('div');
+        explanationDiv.className = 'explanation-box';
+
+        const explanationTitle = document.createElement('strong');
+        explanationTitle.textContent = 'Explanation:';
+        explanationDiv.appendChild(explanationTitle);
+
+        const explanationText = document.createElement('span');
+        explanationText.textContent = ' ' + question.explanation;
+        explanationDiv.appendChild(explanationText);
+
+        resultMessage.appendChild(explanationDiv);
     }
 
     submitAnswerBtn.style.display = 'none';

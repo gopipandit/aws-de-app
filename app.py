@@ -425,6 +425,7 @@ def create_question():
         'category': data.get('category', 'AWS Data Engineering'),
         'difficulty': data.get('difficulty', 'Medium'),
         'question_set': data['question_set'],
+        'explanation': data.get('explanation', ''),
         'created_at': datetime.now()
     })
 
@@ -447,6 +448,7 @@ def update_question(question_id):
             'category': data.get('category', 'AWS Data Engineering'),
             'difficulty': data.get('difficulty', 'Medium'),
             'question_set': data['question_set'],
+            'explanation': data.get('explanation', ''),
             'updated_at': datetime.now()
         }}
     )
